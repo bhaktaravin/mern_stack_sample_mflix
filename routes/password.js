@@ -1,13 +1,10 @@
 const router = require('express').Router();
 const crypto = require('crypto');
-const nodemailer = require('nodemailer');
 const bcrypt = require('bcryptjs');
 const { MongoClient } = require('mongodb');
+const { Resend } = require('resend');
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // POST /api/password/forgot
 router.post('/forgot', async (req, res) => {
@@ -29,8 +26,8 @@ router.post('/forgot', async (req, res) => {
     );
 
     const resetUrl = `${process.env.CLIENT_URL}/reset-password?token=${token}`;
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
+    await resend.emails.send({
+      from: 'onboarding@resend.dev',
       to: email,
       subject: 'Password Reset',
       html: `<p>Click the link below to reset your password. It expires in 1 hour.</p>

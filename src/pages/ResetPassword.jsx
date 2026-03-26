@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
+import { api } from '../utils/api';
 
 export default function ResetPassword() {
   const [password, setPassword] = useState('');
@@ -13,7 +14,7 @@ export default function ResetPassword() {
     e.preventDefault();
     setError(''); setMessage('');
     try {
-      const res = await fetch('/api/password/reset', {
+      const res = await api('/api/password/reset', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token, password }),

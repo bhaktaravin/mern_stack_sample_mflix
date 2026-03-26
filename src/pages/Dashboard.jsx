@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getToken, clearToken } from '../utils/auth';
+import { api } from '../utils/api';
 
 export default function Dashboard() {
   const [data, setData] = useState(null);
@@ -20,7 +21,7 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchData = async () => {
       const token = getToken();
-      const res = await fetch('/api/data', {
+      const res = await api('/api/data', {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.status === 401) return logout(true);

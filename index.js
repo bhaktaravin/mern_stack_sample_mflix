@@ -6,7 +6,12 @@ const connectDB = require('./config/db');
 const app = express();
 connectDB();
 
-app.use(cors({ origin: 'http://localhost:5173' }));
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    process.env.CLIENT_URL,
+  ].filter(Boolean),
+}));
 app.use(express.json());
 
 app.get('/health', (req, res) => res.json({ status: 'ok', timestamp: new Date() }));

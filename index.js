@@ -9,6 +9,8 @@ connectDB();
 app.use(cors({ origin: 'http://localhost:5173' }));
 app.use(express.json());
 
+app.get('/health', (req, res) => res.json({ status: 'ok', timestamp: new Date() }));
+
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/data', require('./routes/data'));
 app.use('/api/password', require('./routes/password'));
